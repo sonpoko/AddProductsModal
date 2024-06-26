@@ -1,0 +1,44 @@
+<template>
+<template lwc:if={showAddProductsModal}>
+    <lightning-quick-action-panel header="商品の追加">
+        商品一覧
+        <div>
+            <template if:true={products}>
+                <template for:each={products} for:item="product">
+                    <p key={product.Id}>
+                        {product.Product2.Name}: {product.Product2.ProductCode} - {product.UnitPrice}
+                    </p>
+                </template>
+            </template>
+        </div>
+        <template if:false={products}>
+            <p>商品がありません。</p>
+        </template>
+        <div slot="footer">
+            <lightning-button label="キャンセル" onclick={handleCancel}></lightning-button>
+            <lightning-button variant="brand" label="次へ" onclick={handleNext}></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+</template>
+<template lwc:elseif={showEditProductsModal} >
+    <lightning-quick-action-panel header="商品の編集">
+        商品の編集が可能です
+        <div>
+        <template if:true={products}>
+                <template for:each={products} for:item="product">
+                        <p key={product.Id}>
+                            {product.Product2.Name}: {product.Product2.ProductCode} - {product.UnitPrice}
+                        </p>
+                    </template>
+                </template>
+        </div>
+        <template if:false={products}>
+                <p>商品が選択されていません。</p>
+        </template>
+        <div slot="footer">
+                <lightning-button label="戻る" onclick={handleReturn}></lightning-button>
+                <lightning-button variant="brand" label="保存" onclick={handleSave}></lightning-button>
+            </div>
+    </lightning-quick-action-panel>
+</template>
+</template>
