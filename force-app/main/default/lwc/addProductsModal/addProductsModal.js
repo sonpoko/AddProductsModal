@@ -48,7 +48,7 @@ export default class AddProductsModal extends LightningElement {
 
     columns = [
         { label: '商品名', fieldName: 'Product2.Name', type: 'text' },
-        { label: '商品コード', fieldName: 'ProductCode', type: 'text' },
+        { label: '商品コード', fieldName: 'Product2.ProductCode', type: 'text' },
         { label: 'リスト価格', fieldName: 'UnitPrice', type: 'currency' },
     ];
 
