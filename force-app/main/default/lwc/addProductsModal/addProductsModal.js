@@ -9,9 +9,11 @@ import QuoteLineItem_Product from '@salesforce/schema/QuoteLineItem__c.Product__
 //const FIERDS = [QuoteLineItem__r.Product__c];
 
 export default class AddProductsModal extends LightningElement {
-    //モーダル1をデフォルトで表示する
+
+        //モーダル1をデフォルトで表示する
     showAddProductsModal = true;
     showEditProductsModal = false;
+    isLoading = true;
 
     handleCancel() {
         this.dispatchEvent(new CloseActionScreenEvent());
@@ -27,20 +29,35 @@ export default class AddProductsModal extends LightningElement {
         this.showEditProductsModal = false;
     }
 
-    @api recordId;
-    Products;
+    @api recordId;　//recordIdプロパティを公開
+    Products; //Apexクラスから取得したデータを保持するプロパティ
 
-    @wire(getProductList)
+    @wire(getProductList) //Apexメソッドを呼び出してデータを取得
 
     wiredProducts({ error, data }){
+        //データが存在する場合、this.Productsに格納する
         if(data) {
             this.products = data;
+            this.isLoading = false;
+        //エラーが存在する場合、エラーメッセージをコンソールに出力する
         } else if (error) {
             console.error('Error fetching product list', error);
+            this.isLoading = false;
         }
     }
 
-    get product(){
-        return this.ProductList ? this.ProductList : [];
+    columns = [
+        { label: '商品名', fieldName: 'Product2.Name', type: 'text' },
+        { label: '商品コード', fieldName: 'ProductCode', type: 'text' },
+        { label: 'リスト価格', fieldName: 'UnitPrice', type: 'currency' },
+    ];
+
+    handleRowAction(event) {
+
     }
+
+    //get product(){
+    //    console.log(Productsリストの受け渡し);
+    //    return this.ProductList ? this.ProductList : [];
+    //}
 }

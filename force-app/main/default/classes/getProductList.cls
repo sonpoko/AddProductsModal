@@ -3,7 +3,7 @@ public with sharing class getProductList {
     public static List<PricebookEntry> getProductList(){ 
         try {
             List<PricebookEntry> Products = [
-                SELECT Product2.Name, Product2.ProductCode, UnitPrice
+                SELECT Id, Product2.Name, Product2.ProductCode, UnitPrice
                 FROM PricebookEntry
             ];
 
