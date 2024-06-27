@@ -1,6 +1,7 @@
 <template>
 <template if:true={showAddProductsModal}>
     <lightning-quick-action-panel header="商品の追加">
+        <lightning-input type="search" label="商品を検索" onchange={handleSearch}></lightning-input>
         商品一覧
         <div>
         <template if:true={isLoading}>
@@ -9,9 +10,10 @@
             <template if:true={products}>
                     <lightning-datatable
                      key-field="Id"
-                     data={products}
+                     data={filteredProducts}
                      columns={columns1}
-                     onrowaction={handleRowAction}>
+                     onrowaction={handleRowAction}
+                     selected-rows={selectedRows}>
                     </lightning-datatable>
             </template>
         </div>
@@ -34,8 +36,8 @@
             <template if:true={products}>
                 <lightning-datatable
                  key-field="Id"
-                 data={products}
-                 columns={columns2}
+                 data={selectedProducts}
+                 columns={editableColumns}
                  onrowaction={handleRowAction}>
                 </lightning-datatable>
         </template>
