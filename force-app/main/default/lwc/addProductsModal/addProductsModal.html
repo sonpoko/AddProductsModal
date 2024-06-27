@@ -10,7 +10,7 @@
                     <lightning-datatable
                      key-field="Id"
                      data={products}
-                     columns={columns}
+                     columns={columns1}
                      onrowaction={handleRowAction}>
                     </lightning-datatable>
             </template>
@@ -31,13 +31,14 @@
         <template if:true={isLoading}>
             <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
         </template>
-        <template if:true={products}>
-                <template for:each={products} for:item="product">
-                        <p key={product.Id}>
-                            {product.Product2.Name}: {product.Product2.ProductCode} - {product.UnitPrice}
-                        </p>
-                    </template>
-                </template>
+            <template if:true={products}>
+                <lightning-datatable
+                 key-field="Id"
+                 data={products}
+                 columns={columns2}
+                 onrowaction={handleRowAction}>
+                </lightning-datatable>
+        </template>
         </div>
         <template if:false={products}>
                 <p>商品が選択されていません。</p>

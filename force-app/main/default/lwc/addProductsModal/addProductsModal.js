@@ -1,4 +1,4 @@
-import { LightningElement ,api, wire } from 'lwc';
+import { LightningElement ,api, wire, track } from 'lwc';
 import getProductList from '@salesforce/apex/getProductList.getProductList';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import addProductsModal from './addProductsModal.html';
@@ -36,20 +36,36 @@ export default class AddProductsModal extends LightningElement {
 
     wiredProducts({ error, data }){
         //データが存在する場合、this.Productsに格納する
-        if(data) {
-            this.products = data;
-            this.isLoading = false;
+        //if(data) {
+        //    this.products = data;
+
+        if (data) {
+            // データを変換して、データテーブルに表示できる形式にする
+            this.products = data.map(product => ({
+                Id: product.Id,
+                Product2Name: product.Product2.Name,
+                Product2ProductCode: product.Product2.ProductCode,
+                UnitPrice: product.UnitPrice
+            }));
+                this.isLoading = false;
         //エラーが存在する場合、エラーメッセージをコンソールに出力する
         } else if (error) {
             console.error('Error fetching product list', error);
             this.isLoading = false;
         }
     }
-
-    columns = [
-        { label: '商品名', fieldName: 'Product2.Name', type: 'text' },
-        { label: '商品コード', fieldName: 'Product2.ProductCode', type: 'text' },
+        //モーダル1のlightning-datatableに表示するカラム
+    columns1 = [
+        { label: '商品名', fieldName: 'Product2Name', type: 'text' },
+        { label: '商品コード', fieldName: 'Product2ProductCode', type: 'text' },
         { label: 'リスト価格', fieldName: 'UnitPrice', type: 'currency' },
+    ];
+
+        //モーダル2のlightning-datatableに表示するカラム
+    columns2 = [
+        { label: '商品名', fieldName: 'Product2Name', type: 'text' },
+        { label: '商品コード', fieldName: 'Product2ProductCode', type: 'text' },
+        { label: 'リスト価格', fieldName: 'UnitPrice', type: 'currency', editable: true },
     ];
 
     handleRowAction(event) {
